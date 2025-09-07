@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Test</title>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #1a1122;
+            color: rgb(255, 255, 255);
+            display: flexbox;
+            justify-items: flex-start;
+            font-family: sans-serif;
+            width: 100vw;
+            overflow-x: hidden;
+        }
+
+        #keyContainer {
+            width: fit-content;
+            max-width: 100vw;
+            display: inline-flexbox;
+            max-height: 70vh;
+            border: 2px solid rgb(255, 255, 255);
+            border-radius: 15px;
+            margin-left: 17vw;
+            margin-top: 9vh;
+            box-shadow: 0 0 30px rgb(22, 241, 40);
+            /* background: linear-gradient(to right, rgba(0, 13, 128, 0.5) ,rgba(255, 255, 0, 0.5), rgba(231, 65, 203, 0.5)); */
+            background-color: rgb(0, 0, 0);
+            color: black;
+            display: none;
+        }
+
+        .keys {
+            display: inline-flex;
+            padding: 10px;
+            border: 1px;
+            font-size: 0.8rem;
+            font-weight: 900;
+            margin: 4px;
+            background-color: rgba(221, 221, 221, 0.877);
+            border-radius: 5px;
+            text-align: center;
+            justify-content: center;
+            letter-spacing: 2px;
+            height: 15px;
+            width: 15px;
+
+
+        }
+
+        main {
+            display: none;
+        }
+
+        .keys:active {
+            box-shadow: 0 1px #999;
+            transform: translateY(2px);
+        }
+
+        /* Special keys (Mac symbols) */
+        .specialKey {
+            background-color: #d6e4ff;
+            /* light blue for symbols */
+            border: 1px solid #7aa7ff;
+            font-weight: 900;
+            font-size: 0.8rem;
+            width: fit-content;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+        #shiftleft,
+        #shiftright {
+            width: 9vw;
+        }
+
+        .allF {
+            width: 30px;
+            height: 5px;
+            padding-top: 10px;
+            padding-bottom: 12px;
+        }
+
+        #escape {
+            height: 5px;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        #tab {
+            padding-left: 35px;
+            padding-right: 35px;
+        }
+
+        #capslock {
+            padding-left: 45px;
+            padding-right: 45px;
+        }
+
+
+        #space {
+            padding-left: 200px;
+            padding-right: 200px;
+            margin-bottom: 10px;
+        }
+
+        #enter {
+            padding-left: 55px;
+            padding-right: 55px;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .wrong {
+            color: red;
+        }
+
+
+        #backspace {
+            padding-left: 55px;
+            padding-right: 55px;
+        }
+
+        #firstPage {
+            text-align: center;
+            font-family: sans-serif;
+            width: 100%;
+            height: 40vh;
+            overflow-y: scroll;
+            padding-top: 30vh;
+            
+        }
+
+        .testType {
+            padding: 10px;
+            width: 30vw;
+            display: block;
+            margin: 5vh;
+            border-radius: 50px;
+            margin-left: 35vw;         
+            cursor: pointer;  
+            border: 1px solid white;
+        }
+
+        #inputText {
+            width: 100vw;
+            height: 20vh;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            display: none;
+        }
+        #easyButton{
+            background-color: rgb(99, 220, 241);
+        }
+        #hardButton{
+            background-color: rgb(64, 142, 194);
+        }
+        #intermediateButton{
+            background-color: rgb(158, 52, 105);
+        }
+
+#resultDiv {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    text-align: center;
+    border: 2px solid rgb(5, 5, 5);
+    padding: 5%;
+    border-radius: 20px;
+    box-shadow: 0 0 15px blue;
+    background: white;
+    max-width: 600px;
+    width: 90%;
+    color: black;
+}
+
+
+    </style>
+</head>
+
+<body>
+    <div id="firstPage">
+        <button id="easyButton" class="testType" onclick="easyParagraphDisplay()">Easy</button>
+        <button id="hardButton" class="testType" onclick="hardParagraphDisplay()">Hard</button>
+        <button id="intermediateButton" class="testType" onclick="intermediateParagraphDisplay()">Intermediate</button>
+    </div>
+
+    <div id="targetText"></div>
+    <textarea name="input" id="inputText" autofocus placeholder="Start Typing here ......."></textarea>
+
+
+    <main id="windows">
+        <audio id="keySound" src="keypress.mp3" preload="auto"></audio>
+
+
+        <div id="keyContainer">
+            <div class="row1">
+                <div id="escape" class="keys">Esc</div>
+                <div id="f1" class="keys allF">F1</div>
+                <div id="f2" class="keys allF">F2</div>
+                <div id="f3" class="keys allF">F3</div>
+                <div id="f4" class="keys allF">F4</div>
+                <div id="f5" class="keys allF">F5</div>
+                <div id="f6" class="keys allF">F6</div>
+                <div id="f7" class="keys allF">F7</div>
+                <div id="f8" class="keys allF">F8</div>
+                <div id="f9" class="keys allF">F9</div>
+                <div id="f10" class="keys allF">F10</div>
+                <div id="f11" class="keys allF">F11</div>
+                <div id="f12" class="keys allF">F12</div>
+            </div>
+            <div class="row1">
+                <div id="backquote" class="keys">~</div>
+                <div id="digit1" class="keys">1</div>
+                <div id="digit2" class="keys">2</div>
+                <div id="digit3" class="keys">3</div>
+                <div id="digit4" class="keys">4</div>
+                <div id="digit5" class="keys">5</div>
+                <div id="digit6" class="keys">6</div>
+                <div id="digit7" class="keys">7</div>
+                <div id="digit8" class="keys">8</div>
+                <div id="digit9" class="keys">9</div>
+                <div id="digit0" class="keys">0</div>
+                <div id="minus" class="keys">-_</div>
+                <div id="equal" class="keys">=+</div>
+                <DIV id="backspace" class="keys">Backspace⟵</DIV>
+            </div>
+            <div class="row2">
+                <div id="tab" class="keys">Tab↹</div>
+                <div id="keyq" class="keys">Q</div>
+                <div id="keyw" class="keys">W</div>
+                <div id="keye" class="keys">E</div>
+                <div id="keyr" class="keys">R</div>
+                <div id="keyt" class="keys">T</div>
+                <div id="keyy" class="keys">Y</div>
+                <div id="keyu" class="keys">U</div>
+                <div id="keyi" class="keys">I</div>
+                <div id="keyo" class="keys">O</div>
+                <div id="keyp" class="keys">P</div>
+                <div id="bracketleft" class="keys">[{</div>
+                <div id="bracketright" class="keys">]}</div>
+                <div id="backslash" class="keys">\|</div>
+            </div>
+            <div class="row3">
+                <div id="capslock" class="keys">Capslock</div>
+                <div id="keya" class="keys">A</div>
+                <div id="keys" class="keys">S</div>
+                <div id="keyd" class="keys">D</div>
+                <div id="keyf" class="keys">F</div>
+                <div id="keyg" class="keys">G</div>
+                <div id="keyh" class="keys">H</div>
+                <div id="keyj" class="keys">J</div>
+                <div id="keyk" class="keys">K</div>
+                <div id="keyl" class="keys">L</div>
+                <div id="semicolon" class="keys">;:</div>
+                <div id="quote" class="keys">"'</div>
+                <div id="enter" class="keys">Enter↵</div>
+            </div>
+            <div class="row4">
+                <div id="shiftleft" class="keys">Shift</div>
+                <div id="keyz" class="keys">Z</div>
+                <div id="keyx" class="keys">X</div>
+                <div id="keyc" class="keys">C</div>
+                <div id="keyv" class="keys">V</div>
+                <div id="keyb" class="keys">B</div>
+                <div id="keyn" class="keys">N</div>
+                <div id="keym" class="keys">M</div>
+                <div id="comma" class="keys">,</div>
+                <div id="period" class="keys">.</div>
+                <div id="slash" class="keys">?/</div>
+                <div id="shiftright" class="keys">Shift</div>
+            </div>
+            <div class="row5">
+                <div id="controlleft" class="keys Control">Ctrl</div>
+                <div id="metaleft" class="keys">⊞</div>
+                <div id="altleft" class="keys">Alt</div>
+                <div id="space" class="keys">Space</div>
+                <div id="altright" class="keys">Alt</div>
+                <div id="contextmenu" class="keys">🖱️</div>
+                <div id="controlright" class="keys Control">Ctrl</div>
+            </div>
+
+        </div>
+    </main>
+    <main id="mac">
+        <audio id="keySound" src="keypress.mp3" preload="auto"></audio>
+
+        <div id="keyContainer">
+            <!-- Function Row -->
+            <div class="row1">
+                <div id="escape" class="keys specialKey">⎋ Esc</div>
+                <div id="f1" class="keys allF">F1</div>
+                <div id="f2" class="keys allF">F2</div>
+                <div id="f3" class="keys allF">F3</div>
+                <div id="f4" class="keys allF">F4</div>
+                <div id="f5" class="keys allF">F5</div>
+                <div id="f6" class="keys allF">F6</div>
+                <div id="f7" class="keys allF">F7</div>
+                <div id="f8" class="keys allF">F8</div>
+                <div id="f9" class="keys allF">F9</div>
+                <div id="f10" class="keys allF">F10</div>
+                <div id="f11" class="keys allF">F11</div>
+                <div id="f12" class="keys allF">F12</div>
+            </div>
+
+            <!-- Number Row -->
+            <div class="row1">
+                <div id="backquote" class="keys">~</div>
+                <div id="digit1" class="keys">1</div>
+                <div id="digit2" class="keys">2</div>
+                <div id="digit3" class="keys">3</div>
+                <div id="digit4" class="keys">4</div>
+                <div id="digit5" class="keys">5</div>
+                <div id="digit6" class="keys">6</div>
+                <div id="digit7" class="keys">7</div>
+                <div id="digit8" class="keys">8</div>
+                <div id="digit9" class="keys">9</div>
+                <div id="digit0" class="keys">0</div>
+                <div id="minus" class="keys">-</div>
+                <div id="equal" class="keys">=</div>
+                <div id="delete" class="keys specialKey">⌫ Delete</div>
+            </div>
+
+            <!-- QWERTY Row -->
+            <div class="row2">
+                <div id="tab" class="keys specialKey">⇥ Tab</div>
+                <div id="keyq" class="keys">Q</div>
+                <div id="keyw" class="keys">W</div>
+                <div id="keye" class="keys">E</div>
+                <div id="keyr" class="keys">R</div>
+                <div id="keyt" class="keys">T</div>
+                <div id="keyy" class="keys">Y</div>
+                <div id="keyu" class="keys">U</div>
+                <div id="keyi" class="keys">I</div>
+                <div id="keyo" class="keys">O</div>
+                <div id="keyp" class="keys">P</div>
+                <div id="bracketleft" class="keys">[</div>
+                <div id="bracketright" class="keys">]</div>
+                <div id="backslash" class="keys">\</div>
+            </div>
+
+            <!-- ASDF Row -->
+            <div class="row3">
+                <div id="capslock" class="keys specialKey">⇪ Caps Lock</div>
+                <div id="keya" class="keys">A</div>
+                <div id="keys" class="keys">S</div>
+                <div id="keyd" class="keys">D</div>
+                <div id="keyf" class="keys">F</div>
+                <div id="keyg" class="keys">G</div>
+                <div id="keyh" class="keys">H</div>
+                <div id="keyj" class="keys">J</div>
+                <div id="keyk" class="keys">K</div>
+                <div id="keyl" class="keys">L</div>
+                <div id="semicolon" class="keys">;</div>
+                <div id="quote" class="keys">'</div>
+                <div id="return" class="keys specialKey">↩ Return</div>
+            </div>
+
+            <!-- ZXCV Row -->
+            <div class="row4">
+                <div id="shiftleft" class="keys specialKey">⇧ Shift</div>
+                <div id="keyz" class="keys">Z</div>
+                <div id="keyx" class="keys">X</div>
+                <div id="keyc" class="keys">C</div>
+                <div id="keyv" class="keys">V</div>
+                <div id="keyb" class="keys">B</div>
+                <div id="keyn" class="keys">N</div>
+                <div id="keym" class="keys">M</div>
+                <div id="comma" class="keys">,</div>
+                <div id="period" class="keys">.</div>
+                <div id="slash" class="keys">/</div>
+                <div id="shiftright" class="keys specialKey">⇧ Shift</div>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="row5">
+                <div id="controlleft" class="keys specialKey">⌃ Control</div>
+                <div id="optionleft" class="keys specialKey">⌥ Option</div>
+                <div id="commandleft" class="keys specialKey">⌘ Command</div>
+                <div id="space" class="keys">Space</div>
+                <div id="commandright" class="keys specialKey">⌘ Command</div>
+                <!-- <div id="optionright" class="keys specialKey">⌥ Option</div>  -->
+            </div>
+        </div>
+    </main>
+
+</body>
+<script src="script.js"></script>
+
+</html>
