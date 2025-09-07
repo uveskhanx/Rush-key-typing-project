@@ -1,2 +1,3 @@
-#TYPING SPEED CHECK
-## Website - rushkey.netlify.app
+
+# TYPING SPEED CHECKER
+## rushkey.netlify.app
